@@ -1,0 +1,38 @@
+services:
+  langflow:
+    # image: langflowai/langflow:latest
+    build: .
+    ports:
+      - "${HOST_PORT:-7860}:7860"
+    depends_on:
+      - postgres
+    environment:
+      - LANGFLOW_DATABASE_URL=postgresql://langflow:langflow@postgres:5432/langflow
+    volumes:
+      - langflow-data:/app/langflow
+    deploy:
+      resources:
+        limits:
+          cpus: "${CPU_LIMIT:-0.5}"
+          memory: "${MEMORY_LIMIT:-1024M}"
+    healthcheck:
+      test: curl -f http://localhost:${HOST_PORT} || exit 1
+      interval: 2s
+      timeout: 15s
+      retries: 5
+      start_period: 50s
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: langflow
+      POSTGRES_PASSWORD: langflow
+      POSTGRES_DB: langflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - langflow-postgres:/var/lib/postgresql/data
+
+volumes:
+  langflow-postgres:
+  langflow-data:
