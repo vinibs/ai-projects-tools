@@ -1,0 +1,18 @@
+services:
+
+  web:
+    build:
+      context: ../
+      dockerfile: build/Dockerfile
+      target: web
+    ports:
+      - "${WEB_PORT:-8080}:8080"
+    develop:
+      watch:
+        - action: sync
+          path: ./
+          target: /app
+          ignore:
+            - flowise-embed/
+        - action: rebuild
+          path: flowise-embed/
