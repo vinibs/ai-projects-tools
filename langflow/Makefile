@@ -14,7 +14,7 @@ langflow-run:
 	@HOST_PORT=${LANGFLOW_HOST_PORT} \
 	MEMORY_LIMIT=${LANGFLOW_MEMORY} \
 	CPU_LIMIT=${LANGFLOW_CPU} \
-	docker compose up -d --wait --no-build &> /dev/null
+	docker compose up -d --wait --no-build
 	@echo "> Langflow is running on http://localhost:${LANGFLOW_HOST_PORT}"
 
 
