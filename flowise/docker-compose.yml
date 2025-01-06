@@ -1,0 +1,26 @@
+services:
+  flowise:
+    image: flowiseai/flowise:latest
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    environment:
+      - PORT=3000
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
+      - IFRAME_ORIGINS=${IFRAME_ORIGINS:-*}
+      - FLOWISE_USERNAME=${FLOWISE_USERNAME:-admin}
+      - FLOWISE_PASSWORD=${FLOWISE_PASSWORD:-admin}
+      - DEBUG=${DEBUG:-true}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+    volumes:
+      - ~/.flowise:/root/.flowise
+    deploy:
+      resources:
+        limits:
+          cpus: "${CPU_LIMIT:-0.5}"
+          memory: "${MEMORY_LIMIT:-1024M}"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:${HOST_PORT} || exit 1
+      interval: 2s
+      timeout: 15s
+      retries: 5
+      start_period: 50s
