@@ -19,9 +19,9 @@ n8n-run:
 
 
 n8n-reset:
-	@make N8N-stop
-	@make N8N-build
-	@make N8N-run
+	@make n8n-stop
+	@make n8n-build
+	@make n8n-run
 
 
 n8n-stop:
