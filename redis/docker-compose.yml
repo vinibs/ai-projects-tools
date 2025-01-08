@@ -1,0 +1,11 @@
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "${HOST_PORT:-6379}:6379"
+    command: redis-server
+    deploy:
+      resources:
+        limits:
+          cpus: "${CPU_LIMIT:-0.5}"
+          memory: "${MEMORY_LIMIT:-1024M}"
