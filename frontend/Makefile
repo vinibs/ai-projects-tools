@@ -1,10 +1,13 @@
 FRONTEND_HOST_PORT = 8080
+FRONTEND_DOCKER_NAME = frontend-flowise-embed
 
 
 web-run:
 	@echo "> Starting Frontend..."
 	@echo "> Frontend will be running on http://localhost:${FRONTEND_HOST_PORT}"
-	@WEB_PORT=${FRONTEND_HOST_PORT} cd ../ && docker compose up --watch --build
+	@WEB_PORT=${FRONTEND_HOST_PORT} \
+	COMPOSE_PROJECT_NAME=${FRONTEND_DOCKER_NAME} \
+	docker compose up --watch --build
 
 
 web-stop:
