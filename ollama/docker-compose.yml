@@ -1,0 +1,17 @@
+services:
+  ollama:
+    container_name: ollama
+    image: ollama/ollama:latest
+    command: serve
+    pull_policy: always
+    tty: true
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT:-11434}:11434"
+    deploy:
+      resources:
+        limits:
+          cpus: "${CPU_LIMIT:-8.0}"
+          memory: "${MEMORY_LIMIT:-4096M}"
+    volumes:
+      - ~/.ollama:/root/.ollama
