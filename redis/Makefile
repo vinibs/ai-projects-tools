@@ -4,7 +4,7 @@ REDIS_HOST_PORT = 6379
 
 redis-build:
 	@echo "> Building Redis..."
-	@@HOST_PORT=${REDIS_HOST_PORT} \
+	@HOST_PORT=${REDIS_HOST_PORT} \
 	MEMORY_LIMIT=${REDIS_MEMORY} \
 	CPU_LIMIT=${REDIS_CPU} \
 	docker compose build &> /dev/null

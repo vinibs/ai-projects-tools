@@ -60,7 +60,7 @@ ai-builder-stop:
 flowise-build:
 
 	@echo "> Building Flowise..."
-	@@HOST_PORT=${FLOWISE_HOST_PORT} \
+	@HOST_PORT=${FLOWISE_HOST_PORT} \
 	MEMORY_LIMIT=${FLOWISE_MEMORY} \
 	CPU_LIMIT=${FLOWISE_CPU} \
 	FLOWISE_USERNAME=${FLOWISE_USERNAME} \

@@ -4,7 +4,7 @@ LANGFUSE_HOST_PORT = 3001
 
 langfuse-build:
 	@echo "> Building Langfuse..."
-	@@HOST_PORT=${LANGFUSE_HOST_PORT} \
+	@HOST_PORT=${LANGFUSE_HOST_PORT} \
 	MEMORY_LIMIT=${LANGFUSE_MEMORY} \
 	CPU_LIMIT=${LANGFUSE_CPU} \
 	docker compose build &> /dev/null

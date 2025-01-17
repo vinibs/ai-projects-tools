@@ -4,7 +4,7 @@ OLLAMA_HOST_PORT = 11434
 
 ollama-build:
 	@echo "> Building Ollama..."
-	@@HOST_PORT=${OLLAMA_HOST_PORT} \
+	@HOST_PORT=${OLLAMA_HOST_PORT} \
 	MEMORY_LIMIT=${OLLAMA_MEMORY} \
 	CPU_LIMIT=${OLLAMA_CPU} \
 	docker compose build &> /dev/null
