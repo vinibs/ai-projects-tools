@@ -4,10 +4,10 @@ services:
     environment:
       SKIP_ENV_VALIDATION: true
       DISABLE_PII_REDACTION: true
-      DATABASE_URL: postgresql://prisma:prisma@postgres:5432/mydb?schema=mydb
-      ELASTICSEARCH_NODE_URL: http://opensearch:9200
+      DATABASE_URL: postgresql://prisma:prisma@langwatch-postgres:5432/mydb?schema=mydb
+      ELASTICSEARCH_NODE_URL: http://langwatch-opensearch:9200
       IS_OPENSEARCH: true
-      REDIS_URL: redis://redis:6379
+      REDIS_URL: redis://langwatch-redis:6379
       LANGWATCH_NLP_SERVICE: http://langwatch_nlp:8080
       LANGEVALS_ENDPOINT: http://langevals:8000
     env_file:
@@ -16,23 +16,23 @@ services:
     ports:
       - "${LANGWATCH_HOST_PORT:-5560}:5560"
     depends_on:
-      postgres:
+      langwatch-postgres:
         condition: service_healthy
-      redis:
+      langwatch-redis:
         condition: service_healthy
-      opensearch:
+      langwatch-opensearch:
         condition: service_healthy
     deploy:
       resources:
         limits:
-          cpus: "${CPU_LIMIT:-1.5}"
-          memory: "${MEMORY_LIMIT:-1024M}"
+          cpus: "${CPU_LIMIT:-2.0}"
+          memory: "${MEMORY_LIMIT:-2048M}"
     healthcheck:
       test: ["CMD-SHELL", "curl -s http://localhost:${LANGWATCH_HOST_PORT:-5560} || exit 1"]
-      interval: 10s
+      interval: 15s
       timeout: 15s
       retries: 3
-      start_period: 20s
+      start_period: 150s
 
   langwatch_nlp:
     image: langwatch/langwatch_nlp:latest
@@ -64,7 +64,7 @@ services:
           cpus: "0.5"
           memory: "512M"
 
-  postgres:
+  langwatch-postgres:
     image: postgres:16
     restart: always
     environment:
@@ -72,7 +72,7 @@ services:
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     healthcheck:
@@ -86,10 +86,10 @@ services:
           cpus: "0.5"
           memory: "512M"
 
-  redis:
+  langwatch-redis:
     image: redis:alpine
     ports:
-      - "6379:6379"
+      - "6377:6379"
     volumes:
       - redis-data:/data
     healthcheck:
@@ -103,7 +103,7 @@ services:
           cpus: "0.25"
           memory: "256M"
 
-  opensearch:
+  langwatch-opensearch:
     image: opensearchproject/opensearch:2.17.1
     environment:
       - discovery.type=single-node
@@ -143,12 +143,12 @@ services:
       interval: 10s
       timeout: 30s
       retries: 3
-      start_period: 40s
+      start_period: 90s
     deploy:
       resources:
         limits:
-          cpus: "1.5"
-          memory: "512M"
+          cpus: "2.0"
+          memory: "1024M"
     restart: always
 
 volumes:

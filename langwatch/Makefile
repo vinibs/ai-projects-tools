@@ -1,12 +1,12 @@
-LANGWATCH_CPU = 1.5
-LANGWATCH_MEMORY = 1024m
+LANGWATCH_CPU = 2.0
+LANGWATCH_MEMORY = 2048m
 LANGWATCH_HOST_PORT = 5560
 
 
 langwatch-build:
 	@echo "> Building Langwatch..."
 	@LANGWATCH_HOST_PORT=${LANGWATCH_HOST_PORT} \
-	docker compose build -m ${LANGWATCH_MEMORY}
+	docker compose build -m ${LANGWATCH_MEMORY} &> /dev/null
 	@echo "> Langwatch image built"
 
 
@@ -15,7 +15,7 @@ langwatch-run:
 	@LANGWATCH_HOST_PORT=${LANGWATCH_HOST_PORT} \
 	MEMORY_LIMIT=${LANGWATCH_MEMORY} \
 	CPU_LIMIT=${LANGWATCH_CPU} \
-	docker compose up -d --wait --no-build --remove-orphans
+	docker compose up -d --wait --no-build --remove-orphans &> /dev/null
 	@echo "> Langwatch is running on http://localhost:${LANGWATCH_HOST_PORT}"
 
 
