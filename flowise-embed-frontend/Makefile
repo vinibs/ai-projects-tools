@@ -1,5 +1,5 @@
 FRONTEND_HOST_PORT = 8080
-FRONTEND_DOCKER_NAME = frontend-flowise-embed
+FRONTEND_DOCKER_NAME = flowise-embed-frontend
 
 
 web-run:
